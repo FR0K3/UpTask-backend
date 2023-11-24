@@ -16,6 +16,7 @@ router
 router.post('/collaborators', checkAuth, projectController.searchCollaborator)
 router.post('/collaborators/:id', checkAuth, projectController.addCollaborator);
 router.post('/delete-collaborator/:id', checkAuth, projectController.deleteCollaborator);
+router.post('/status/:id', checkAuth, projectController.changeStatus);
 
 
 module.exports = router;

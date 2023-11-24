@@ -20,6 +20,10 @@ const projectSchema = mongoose.Schema({
         trim: true,
         required: true,
     },
+    state: {
+        type: Boolean,
+        default: false
+    },
     creator: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
@@ -28,6 +32,12 @@ const projectSchema = mongoose.Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Task'
+        }
+    ],
+    templates: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Template'
         }
     ],
     collaborators: [

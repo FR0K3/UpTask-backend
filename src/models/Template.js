@@ -7,19 +7,15 @@ const taskSchema = mongoose.Schema({
         trim: true,
         required: true,
     },
-    description: {
+    taskName: {
         type: String,
         trim: true,
         required: true,
     },
-    tag: {
+    description: {
         type: String,
+        trim: true,
         required: true,
-        enum: ["Dev", "QA", "Administrator", "UX/UI"]
-    },
-    status: {
-        type: Boolean,
-        default: false,
     },
     deadline: {
         type: Date,
@@ -34,14 +30,10 @@ const taskSchema = mongoose.Schema({
     project: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Project',
-    },
-    completed: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
     }
 }, {
     timestamps: true,
 });
 
-const Task = mongoose.model('Task', taskSchema);
+const Task = mongoose.model('Template', taskSchema);
 module.exports = Task;

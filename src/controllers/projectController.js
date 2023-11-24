@@ -10,7 +10,7 @@ exports.getProjects = async (req, res) => {
             { 'collaborators': { $in: req.user } },
             { 'creator': { $in: req.user } }
         ]
-    }).select("-tasks");
+    });
 
     res.json(projects);
 }
@@ -86,6 +86,7 @@ exports.updateProject = async (req, res) => {
         project.description = req.body.description || project.description;
         project.deadline = req.body.deadline || project.deadline;
         project.client = req.body.client || project.client;
+        project.state = req.body.state || project.state;
 
         const updatedProject = await project.save();
         return res.json(updatedProject);
@@ -231,4 +232,37 @@ exports.deleteCollaborator = async (req, res) => {
     }
 }
 
+exports.changeStatus = async (req, res) => {
+    try {
+        const idValid = mongoose.Types.ObjectId.isValid(req.params.id);
+
+        if (!idValid)
+            return res.status(400).json({ msg: 'Invalid project id' });
+
+        const project = await Project.findById(req.params.id);
+
+        if (!project) {
+            const error = new Error('Project not found');
+            return res.status(404).json({ msg: error.message });
+        }
+
+        if (project.creator.toString() !== req.user._id.toString()) {
+            const error = new Error('Unauthorized action');
+            return res.status(401).json({ msg: error.message });
+        }
+
+        project.state = !project.state;
+
+        await project.save();
+
+        const savedProject = await Project.findById(req.params.id)
+            .populate({ path: 'tasks', populate: { path: 'completed', select: "name" } })
+            .populate('collaborators', "name email");
+
+        return res.json(savedProject);
+
+    } catch (error) {
+        return res.status(400).json({ msg: error.message });
+    }
+}
 

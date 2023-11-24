@@ -83,6 +83,7 @@ exports.updateTask = async (req, res) => {
         task.description = req.body.description || task.description;
         task.priority = req.body.priority || task.priority;
         task.deadline = req.body.deadline || task.deadline;
+        task.tag = req.body.tag || task.tag;
 
         const updatedTask = await task.save();
         res.json(updatedTask);

@@ -38,6 +38,7 @@ exports.getProject = async (req, res) => {
 
         const project = await Project.findById(id)
             .populate({ path: 'tasks', populate: { path: 'completed', select: "name" } })
+            .populate({path:"templates"})
             .populate('collaborators', "name email");
 
         if (!project) {

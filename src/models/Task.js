@@ -26,6 +26,10 @@ const taskSchema = mongoose.Schema({
         required: true,
         default: Date.now(),
     },
+    comments: {
+        type: Array,
+        trim: true,
+    },
     priority: {
         type: String,
         required: true,

@@ -30,7 +30,12 @@ const taskSchema = mongoose.Schema({
     project: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Project',
-    }
+    },
+    tag: {
+        type: String,
+        required: true,
+        enum: ["Dev", "QA", "Administrator", "UX/UI"]
+    },
 }, {
     timestamps: true,
 });

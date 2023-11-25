@@ -29,6 +29,7 @@ const taskSchema = mongoose.Schema({
     comments: {
         type: Array,
         trim: true,
+        default: []
     },
     priority: {
         type: String,
